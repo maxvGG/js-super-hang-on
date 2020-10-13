@@ -1,5 +1,7 @@
-let width = 640;
-let height = 480;
+let width = 1980;
+let height = 1080;
+// let width = 640;
+// let height = 480;
 let fps = 60;
 let step = 1 / fps;
 let skySpeed = 0.0005;
@@ -73,8 +75,9 @@ const initialize = async() => {
 
     background = await Loader.loadImage('./assets/img/backgrounds.png');
     sprites = await Loader.loadImage("assets/img/sprites.png");
+
+    console.log(background);
     run()
-    console.log('initialize...')
 };
 const run = () => {
     let now = null
@@ -101,7 +104,14 @@ const update = (dt) => {
     const speedPercent = speed / maxSpeed;
     const dx = dt * 2 * speedPercent;
 
+    startPosition = position;
+
     position = Util.increase(position, dt * speed, trackLength);
+
+    skyOffset = Util.increase(skyOffset, (skySpeed * playerSegment.curve * (position - startPosition)) / segmentLength, 1);
+    hillsOffset = Util.increase(hillsOffset, (hillsSpeed * playerSegment.curve * (position - startPosition)) / segmentLength, 1);
+    woodsOffset = Util.increase(woodsOffset, (woodsSpeed * playerSegment.curve * (position - startPosition)) / segmentLength, 1);
+
     if (keyLeft) {
         playerX -= dx;
     } else if (keyRight) {
@@ -134,7 +144,13 @@ const render = () => {
     let maxy = height;
     let x = 0;
     let dx = -(baseSegment.curve * basePercent);
+
     ctx.clearRect(0, 0, width, height);
+
+    Render.background(ctx, background, width, height, BACKGROUND.SKY, skyOffset, resolution * skySpeed * playerY);
+    Render.background(ctx, background, width, height, BACKGROUND.HILLS, hillsOffset, resolution * hillsSpeed * playerY);
+    Render.background(ctx, background, width, height, BACKGROUND.WOODS, woodsOffset, resolution * woodsSpeed * playerY);
+
     let n, i, segment, car, sprite, spriteScale, spriteX, spriteY;
     for (n = 0; n < drawDistance; n++) {
         segment = segments[(baseSegment.index + n) % segments.length];
