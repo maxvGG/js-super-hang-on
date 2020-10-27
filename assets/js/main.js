@@ -169,4 +169,23 @@ const render = () => {
         Render.segment(ctx, width, lanes, segment.p1.screen.x, segment.p1.screen.y, segment.p1.screen.w, segment.p2.screen.x, segment.p2.screen.y, segment.p2.screen.w, segment.fog, segment.color);
         maxy = segment.p1.screen.y;
     }
+
+    for (n = drawDistance - 1; n > 0; n--) {
+        segment = segments[(baseSegment.index + n) % segments.length];
+
+        if (segment == playerSegment) {
+            Render.player(ctx, width, height, resolution, roadWidth, sprites, speed / maxSpeed, cameraDepth / playerZ, width / 2, height / 2 - ((cameraDepth / playerZ) * Util.interpolate(playerSegment.p1.camera.y, playerSegment.p2.camera.y, playerPercent) * height) / 2); // speed * (keyLeft ? -1 : keyRight ? 1 : 0), playerSegment.p2.world.y - playerSegment.p1.world.y
+        }
+    }
+    // for (n = drawDistance - 1; n > 0; n--) {
+    //     segment = segments[(baseSegment.index + n) % segments.length];
+
+    //     // hier sprites renderen
+    //     if (segment == playerSegment) {
+    //         Render.player(ctx, width, height, resolution, roadWidth, sprites, speed / maxSpeed, cameraDepth / playerZ, width / 2, height / 2 - ((cameraDepth / playerZ) * Util.interpolate(playerSegment.p1.camera.y, playerSegment.p2.camera.y, playerPercent) * height) / 2); // speed * (keyLeft ? -1 : keyRight ? 1 : 0), playerSegment.p2.world.y - playerSegment.p1.world.y
+    //     }
+
+    // }
+
+
 };
