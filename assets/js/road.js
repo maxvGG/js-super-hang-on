@@ -14,13 +14,13 @@ class Road {
     static reset() {
         segments = [];
         Road.addStraight(ROAD.LENGTH.LONG);
+        Road.addBumps();
         Road.addCurve(ROAD.LENGTH.LONG, -ROAD.CURVE.MEDIUM, ROAD.HILL.NONE);
         Road.addStraight();
+        Road.addHill(ROAD.LENGTH.LONG, ROAD.HILL.MEDIUM);
         Road.addSCurves();
         Road.addStraight();
-        Road.addHill(ROAD.LENGTH.LONG, ROAD.HILL.MEDIUM);
         Road.addLowRollingHills();
-        Road.addBumps();
         Road.addDownhillToEnd();
         segments[Segment.find(playerZ).index + 2].color = COLORS.START;
         segments[Segment.find(playerZ).index + 3].color = COLORS.START;

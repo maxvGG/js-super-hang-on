@@ -1,7 +1,8 @@
-let width = 1980;
-let height = 1080;
-// let width = 640;
-// let height = 480;
+// let width = 1980;
+// let height = 1080;
+let width = 640;
+let height = 480;
+let lap = 0;
 let fps = 60;
 let step = 1 / fps;
 let skySpeed = 0.0005;
@@ -100,6 +101,7 @@ const run = () => {
     frame();
 };
 const update = (dt) => {
+
     const playerSegment = Segment.find(position + playerZ);
     const speedPercent = speed / maxSpeed;
     const dx = dt * 2 * speedPercent;
@@ -167,8 +169,25 @@ const update = (dt) => {
     tire = Util.toInt(position / 500) % 2;
 
     bikeSpriteSelector = 6 + tire + hang + brake;
+
+    position = Math.floor(position);
+    trackLength = Math.floor(trackLength);
+    if (position > trackLength - 200) {
+        lap++;
+        document.getElementById("rounds").innerHTML = lap;
+    }
+    if (speed > 0) {
+        document.getElementById('speed').innerHTML = (speed / 100 | 0);
+    } else {
+        document.getElementById('speed').innerHTML = 0
+    }
+
 };
 const render = () => {
+
+
+    console.log(speed);
+    // console.log(trackLength);
     let baseSegment = Segment.find(position);
     let basePercent = Util.percentRemaining(position, segmentLength);
     let playerSegment = Segment.find(position + playerZ);
@@ -210,5 +229,8 @@ const render = () => {
             Render.player(ctx, width, height, resolution, roadWidth, sprites, speed / maxSpeed, cameraDepth / playerZ, width / 2, height / 2 - ((cameraDepth / playerZ) * Util.interpolate(playerSegment.p1.camera.y, playerSegment.p2.camera.y, playerPercent) * height) / 2); // speed * (keyLeft ? -1 : keyRight ? 1 : 0), playerSegment.p2.world.y - playerSegment.p1.world.y
         }
     }
+
+
+
 
 };

@@ -76,6 +76,4 @@ class Render {
         let sprite = SPRITES.BIKE[bikeSpriteSelector];
         Render.sprite(ctx, width, height, resolution, roadWidth, sprites, sprite, scale, destX, destY, -0.5, -1.04);
     }
-
-
 }
