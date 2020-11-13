@@ -177,7 +177,7 @@ const update = (dt) => {
         document.getElementById("rounds").innerHTML = lap;
     }
     if (speed > 0) {
-        document.getElementById('speed').innerHTML = (speed / 100 | 0);
+        document.getElementById('speed').innerHTML = (speed / 100 | 0) * 2;
     } else {
         document.getElementById('speed').innerHTML = 0
     }
